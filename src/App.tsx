@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import BrowserAccessories from './components/accessories/BrowserAccessories';
+import BrowserEmployees from './components/employees/BrowserEmployees';
+import Layout from './components/layout/Layout';
+import BrowserMaterials from './components/materials/BrowserMaterials';
+import BrowserRawMaterials from './components/rawMaterials/BrowserRawMaterials';
+import BrowserWorkOrders from './components/work-orders/BrowserWorkOrders';
+import BrowserWorkTools from './components/work-tools/BrowserWorkTools';
+import BrowserRegistrations from './components/registrations/BrowserRegistrations';
+import ManageAccessories from './components/accessories/ManageAccessories';
+import ManageEmployees from './components/employees/ManageEmployees';
+import ManageMaterials from './components/materials/ManageMaterials';
+import CreateWorkOrder from './components/work-orders/CreateWorkOrder';
+import ManageRawMaterials from './components/rawMaterials/ManageRawMaterials';
+import { theme } from './assets/styles/theme';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App: React.FC = () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route path="/accessories" element={<BrowserAccessories />} />
+            <Route path="/employees" element={<BrowserEmployees />} />
+            <Route path="/materials" element={<BrowserMaterials />} />
+            <Route path="/rawMaterials" element={<BrowserRawMaterials />} />
+            <Route path="/workOrders" element={<BrowserWorkOrders />} />
+            <Route path="/workTools" element={<BrowserWorkTools />} />
+            <Route path="/registrations" element={<BrowserRegistrations />} />
+            <Route path="/manageAcessories" element={<ManageAccessories />} />
+            <Route path="/manageEmployees" element={<ManageEmployees />} />
+            <Route path="/manageMaterials" element={<ManageMaterials />} />
+            <Route path="/manageRawMaterials" element={<ManageRawMaterials />} />
+            <Route path="/createWorkOrder" element={<CreateWorkOrder />} />
+          </Routes>
+        </Layout>
+      </Router>
+    </ThemeProvider>
+  );
+};
 
-export default App
+export default App;
