@@ -26,7 +26,7 @@ const SidebarLink = styled(NavLink)`
 const Sidebar: React.FC = () => {
   return (
     <SidebarContainer>
-      <h1>MonBraz</h1>
+      <h1 style={{ marginBottom: '20px' }}>MonBraz</h1>
       <SidebarLink to="/accessories">Acessórios</SidebarLink>
       <SidebarLink to="/employees">Funcionários</SidebarLink>
       <SidebarLink to="/materials">Materiais</SidebarLink>
