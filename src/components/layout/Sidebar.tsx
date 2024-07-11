@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
 const SidebarContainer = styled.div`
-  width: 250px;
-  height: 100vh;
+  width: 220px;
+  min-height: 100vh;
   background-color: ${(props) => props.theme.colors.primary};
   color: ${(props) => props.theme.colors.white};
   display: flex;

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const HeaderContainer = styled.header`
-  width: 1116px;
+  width: 1146px;
   padding: 20px;
   background-color: ${(props) => props.theme.colors.secondary};
   color: ${(props) => props.theme.colors.white};
