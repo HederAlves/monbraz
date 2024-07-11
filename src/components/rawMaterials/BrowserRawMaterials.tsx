@@ -12,33 +12,34 @@ interface IRawMaterials {
 }
 
 const Container = styled.div`
-    padding: 20px;
+  padding: 20px;
 `;
 
 const Title = styled.h2`
-    color: ${(props) => props.theme.colors.primary};
-    margin-bottom: 20px;
+  color: ${(props) => props.theme.colors.primary};
+  margin-bottom: 20px;
 `;
 
 const List = styled.ul`
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 `;
 
 const ListItem = styled.li`
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: ${(props) => props.theme.colors.white};
-    border: 1px solid ${(props) => props.theme.colors.primary};
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  background-color: ${(props) => props.theme.colors.white};
+  border: 1px solid ${(props) => props.theme.colors.primary};
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 const Strong = styled.strong`
-    color: ${(props) => props.theme.colors.secondary};
+  color: ${(props) => props.theme.colors.secondary};
 `;
 
 const BrowserRawMaterials: React.FC = () => {
@@ -64,9 +65,9 @@ const BrowserRawMaterials: React.FC = () => {
             <List>
                 {materials.map(rawMaterial => (
                     <ListItem key={rawMaterial.id}>
-                        <ul><Strong>Nome:</Strong> {rawMaterial.name}</ul>
-                        <ul><Strong>Comprimento:</Strong> {rawMaterial.length}</ul>
-                        <ul><Strong>Quantidade:</Strong> {rawMaterial.amount}</ul>
+                        <Strong>Nome:</Strong> {rawMaterial.name}<br />
+                        <Strong>Comprimento:</Strong> {rawMaterial.length}<br />
+                        <Strong>Quantidade:</Strong> {rawMaterial.amount}<br />
                     </ListItem>
                 ))}
             </List>
