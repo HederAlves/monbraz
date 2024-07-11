@@ -2,11 +2,88 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc } from 'firebase/firestore';
 import firestore from '../../firebaseConfig';
+import styled from 'styled-components';
 
-const CreateWorkOrder = () => {
+const Container = styled.div`
+    width: 800px;
+    padding: 20px 20px 5px 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const Title = styled.h2`
+    margin-bottom: 20px;
+`;
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+`;
+
+const Input = styled.input`
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+        border-color: #3f51b5;
+        box-shadow: 0 0 5px rgba(63, 81, 181, 0.5);
+        outline: none;
+    }
+`;
+
+const Select = styled.select`
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+        border-color: #3f51b5;
+        box-shadow: 0 0 5px rgba(63, 81, 181, 0.5);
+        outline: none;
+    }
+`;
+
+const CheckboxContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+`;
+
+const CheckboxLabel = styled.label`
+    display: flex;
+    align-items: center;
+    gap: 5px;
+`;
+
+const Button = styled.button`
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: ${(props) => props.theme.colors.primary};
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: ${(props) => props.theme.colors.secondary};
+    }
+`;
+
+const CreateWorkOrder: React.FC = () => {
     const [employees, setEmployees] = useState<{ id: string; name: string; }[]>([]);
     const [tools, setTools] = useState<{ id: string; code: string; name: string; }[]>([]);
-    const [accessories, setAccessories] = useState<{ id: string; name: string; }[]>([]);
+    const [accessories, setAccessories] = useState<{ id: string; name: string; code: string }[]>([]);
     const [selectedTools, setSelectedTools] = useState<string[]>([]);
     const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
     const [order, setOrder] = useState({
@@ -100,17 +177,17 @@ const CreateWorkOrder = () => {
     };
 
     return (
-        <div>
-            <h2>Criar Ordem de Serviço</h2>
-            <form onSubmit={handleSubmit}>
-                <input
+        <Container>
+            <Title>Criar Ordem de Serviço</Title>
+            <Form onSubmit={handleSubmit}>
+                <Input
                     type="text"
                     name="number"
                     placeholder="Número da Ordem"
                     value={order.number}
                     onChange={handleChange}
                 />
-                <select
+                <Select
                     name="employeeName"
                     value={order.employeeName}
                     onChange={handleChange}
@@ -119,8 +196,8 @@ const CreateWorkOrder = () => {
                     {employees.map(employee => (
                         <option key={employee.id} value={employee.name}>{employee.name}</option>
                     ))}
-                </select>
-                <input
+                </Select>
+                <Input
                     type="text"
                     name="activityName"
                     placeholder="Nome da Atividade"
@@ -129,43 +206,41 @@ const CreateWorkOrder = () => {
                 />
                 <div>
                     <strong>Ferramentas Utilizadas:</strong>
-                    {tools.map(tool => (
-                        <div key={tool.id}>
-                            <input
-                                type="checkbox"
-                                value={tool.name}
-                                checked={selectedTools.includes(tool.name)}
-                                onChange={handleToolChange}
-                            />
-                            <label>
-                                <span style={{ fontSize: '0.8em', opacity: 0.7 }}>{tool.code}</span>
-                                {' '}
+                    <CheckboxContainer>
+                        {tools.map(tool => (
+                            <CheckboxLabel key={tool.id}>
+                                <input
+                                    type="checkbox"
+                                    value={tool.name}
+                                    checked={selectedTools.includes(tool.name)}
+                                    onChange={handleToolChange}
+                                />
                                 {tool.name}
-                            </label>
-                        </div>
-                    ))}
+                                <span style={{ fontSize: '0.8em', opacity: 0.7 }}>{tool.code}</span>
+                            </CheckboxLabel>
+                        ))}
+                    </CheckboxContainer>
                 </div>
                 <div>
                     <strong>Acessórios Utilizados:</strong>
-                    {accessories.map(accessory => (
-                        <div key={accessory.id}>
-                            <input
-                                type="checkbox"
-                                value={accessory.name}
-                                checked={selectedAccessories.includes(accessory.name)}
-                                onChange={handleAccessoryChange}
-                            />
-                            <label>
-                                <span style={{ fontSize: '0.8em', opacity: 0.7 }}>{accessory.id}</span>
-                                {' '}
+                    <CheckboxContainer>
+                        {accessories.map(accessory => (
+                            <CheckboxLabel key={accessory.id}>
+                                <input
+                                    type="checkbox"
+                                    value={accessory.name}
+                                    checked={selectedAccessories.includes(accessory.name)}
+                                    onChange={handleAccessoryChange}
+                                />
                                 {accessory.name}
-                            </label>
-                        </div>
-                    ))}
+                                <span style={{ fontSize: '0.8em', opacity: 0.7 }}>{accessory.code}</span>
+                            </CheckboxLabel>
+                        ))}
+                    </CheckboxContainer>
                 </div>
-                <button type="submit">Criar Ordem de Serviço</button>
-            </form>
-        </div>
+                <Button type="submit">Criar Ordem de Serviço</Button>
+            </Form>
+        </Container>
     );
 };
 

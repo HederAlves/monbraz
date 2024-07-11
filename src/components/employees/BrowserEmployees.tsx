@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { collection, getDocs } from 'firebase/firestore';
 import styled from 'styled-components';
 import firestore from '../../firebaseConfig';
+import { FaUserCircle } from 'react-icons/fa';
 
 interface Employee {
   id: string;
@@ -75,7 +76,11 @@ const BrowserEmployees: React.FC = () => {
       <List>
         {employees.map((employee) => (
           <ListItem key={employee.id}>
-            <Image src={employee.imageUrl} alt={employee.name} />
+            {employee.imageUrl ? (
+              <Image src={employee.imageUrl} alt="Profile" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
+            ) : (
+              <FaUserCircle style={{ fontSize: '50px', marginRight: '10px' }} />
+            )}
             <div>
               <Strong>Nome:</Strong> {employee.name} <br />
               <Strong>Email:</Strong> {employee.email} <br />
