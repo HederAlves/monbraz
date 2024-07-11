@@ -41,6 +41,7 @@ const Dashboard: React.FC = () => {
     { title: 'Materiais', link: '/ManageMaterials' },
     { title: 'Matérias Prima', link: '/ManageRawMaterials' },
     { title: 'Ordens de Serviço', link: '/createWorkOrder' },
+    { title: 'Ferramentas', link: '/ManageWorkTools' }
   ];
 
   return (
