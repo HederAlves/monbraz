@@ -22,9 +22,13 @@ const Title = styled.h2`
 const List = styled.ul`
     list-style-type: none;
     padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 `;
 
 const ListItem = styled.li`
+    width: 320px;
     background-color: ${(props) => props.theme.colors.white};
     border: 1px solid ${(props) => props.theme.colors.primary};
     border-radius: 8px;
