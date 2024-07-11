@@ -15,6 +15,7 @@ import ManageMaterials from './components/materials/ManageMaterials';
 import CreateWorkOrder from './components/work-orders/CreateWorkOrder';
 import ManageRawMaterials from './components/rawMaterials/ManageRawMaterials';
 import { theme } from './assets/styles/theme';
+import ManageWorkTools from './components/work-tools/ManageWorkTools';
 
 const App: React.FC = () => {
   return (
@@ -34,6 +35,7 @@ const App: React.FC = () => {
             <Route path="/manageMaterials" element={<ManageMaterials />} />
             <Route path="/manageRawMaterials" element={<ManageRawMaterials />} />
             <Route path="/createWorkOrder" element={<CreateWorkOrder />} />
+            <Route path="/manageWorkTools" element={<ManageWorkTools />} />
           </Routes>
         </Layout>
       </Router>
