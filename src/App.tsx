@@ -23,6 +23,7 @@ const App: React.FC = () => {
       <Router>
         <Layout>
           <Routes>
+            <Route path="/" element={<CreateWorkOrder />} />
             <Route path="/accessories" element={<BrowserAccessories />} />
             <Route path="/employees" element={<BrowserEmployees />} />
             <Route path="/materials" element={<BrowserMaterials />} />

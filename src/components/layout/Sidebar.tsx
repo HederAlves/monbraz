@@ -27,12 +27,13 @@ const Sidebar: React.FC = () => {
   return (
     <SidebarContainer>
       <h1 style={{ marginBottom: '20px' }}>MonBraz</h1>
-      <SidebarLink to="/accessories">Acessórios</SidebarLink>
+      <SidebarLink to="/">Inicio</SidebarLink>
+      <SidebarLink to="/workOrders">Ordens de serviço</SidebarLink>
       <SidebarLink to="/employees">Funcionários</SidebarLink>
+      <SidebarLink to="/workTools">Ferramentas</SidebarLink>
+      <SidebarLink to="/accessories">Acessórios</SidebarLink>
       <SidebarLink to="/materials">Materiais</SidebarLink>
       <SidebarLink to="/rawMaterials">Matérias Prima</SidebarLink>
-      <SidebarLink to="/workOrders">Ordens de serviço</SidebarLink>
-      <SidebarLink to="/workTools">Ferramentas</SidebarLink>
       <SidebarLink to="/registrations">Cadastros</SidebarLink>
     </SidebarContainer>
   );

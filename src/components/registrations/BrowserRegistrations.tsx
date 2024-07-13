@@ -36,12 +36,12 @@ const CardTitle = styled.h2`
 
 const Dashboard: React.FC = () => {
   const cards = [
-    { title: 'Acessórios', link: '/manageAcessories' },
+    { title: 'Ordens de Serviço', link: '/createWorkOrder' },
     { title: 'Funcionários', link: '/manageEmployees' },
+    { title: 'Ferramentas', link: '/ManageWorkTools' },
+    { title: 'Acessórios', link: '/manageAcessories' },
     { title: 'Materiais', link: '/ManageMaterials' },
     { title: 'Matérias Prima', link: '/ManageRawMaterials' },
-    { title: 'Ordens de Serviço', link: '/createWorkOrder' },
-    { title: 'Ferramentas', link: '/ManageWorkTools' }
   ];
 
   return (
