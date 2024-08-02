@@ -1,12 +1,75 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, addDoc } from 'firebase/firestore';
 import firestore from '../../firebaseConfig';
+import styled from 'styled-components';
+
+const Container = styled.div`
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const Title = styled.h2`
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #1a1a2e;
+`;
+
+const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+`;
+
+const Input = styled.input`
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+`;
+
+const Select = styled.select`
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+`;
+
+const CheckboxContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+`;
+
+const CheckboxLabel = styled.label`
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+`;
+
+const Button = styled.button`
+    padding: 0.75rem 1.5rem;
+    background-color: #1a1a2e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #161628;
+    }
+`;
 
 const CreateWorkOrder = () => {
     const [employees, setEmployees] = useState<{ id: string; name: string; }[]>([]);
     const [tools, setTools] = useState<{ id: string; code: string; name: string; }[]>([]);
-    const [accessories, setAccessories] = useState<{ id: string; name: string; }[]>([]);
+    const [accessories, setAccessories] = useState<{ id: string; code: string; name: string; }[]>([]);
     const [selectedTools, setSelectedTools] = useState<string[]>([]);
     const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
     const [order, setOrder] = useState({
@@ -23,6 +86,7 @@ const CreateWorkOrder = () => {
     });
 
     useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const fetchCollection = async (collectionName: string, setState: React.Dispatch<React.SetStateAction<any[]>>) => {
             try {
                 const querySnapshot = await getDocs(collection(firestore, collectionName));
@@ -100,17 +164,17 @@ const CreateWorkOrder = () => {
     };
 
     return (
-        <div>
-            <h2>Criar Ordem de Serviço</h2>
-            <form onSubmit={handleSubmit}>
-                <input
+        <Container>
+            <Title>Criar Ordem de Serviço</Title>
+            <Form onSubmit={handleSubmit}>
+                <Input
                     type="text"
                     name="number"
                     placeholder="Número da Ordem"
                     value={order.number}
                     onChange={handleChange}
                 />
-                <select
+                <Select
                     name="employeeName"
                     value={order.employeeName}
                     onChange={handleChange}
@@ -119,8 +183,8 @@ const CreateWorkOrder = () => {
                     {employees.map(employee => (
                         <option key={employee.id} value={employee.name}>{employee.name}</option>
                     ))}
-                </select>
-                <input
+                </Select>
+                <Input
                     type="text"
                     name="activityName"
                     placeholder="Nome da Atividade"
@@ -129,43 +193,43 @@ const CreateWorkOrder = () => {
                 />
                 <div>
                     <strong>Ferramentas Utilizadas:</strong>
-                    {tools.map(tool => (
-                        <div key={tool.id}>
-                            <input
-                                type="checkbox"
-                                value={tool.name}
-                                checked={selectedTools.includes(tool.name)}
-                                onChange={handleToolChange}
-                            />
-                            <label>
+                    <CheckboxContainer>
+                        {tools.map(tool => (
+                            <CheckboxLabel key={tool.id}>
+                                <input
+                                    type="checkbox"
+                                    value={tool.code}
+                                    checked={selectedTools.includes(tool.code)}
+                                    onChange={handleToolChange}
+                                />
                                 <span style={{ fontSize: '0.8em', opacity: 0.7 }}>{tool.code}</span>
                                 {' '}
                                 {tool.name}
-                            </label>
-                        </div>
-                    ))}
+                            </CheckboxLabel>
+                        ))}
+                    </CheckboxContainer>
                 </div>
                 <div>
                     <strong>Acessórios Utilizados:</strong>
-                    {accessories.map(accessory => (
-                        <div key={accessory.id}>
-                            <input
-                                type="checkbox"
-                                value={accessory.name}
-                                checked={selectedAccessories.includes(accessory.name)}
-                                onChange={handleAccessoryChange}
-                            />
-                            <label>
-                                <span style={{ fontSize: '0.8em', opacity: 0.7 }}>{accessory.id}</span>
+                    <CheckboxContainer>
+                        {accessories.map(accessory => (
+                            <CheckboxLabel key={accessory.id}>
+                                <input
+                                    type="checkbox"
+                                    value={accessory.code}
+                                    checked={selectedAccessories.includes(accessory.code)}
+                                    onChange={handleAccessoryChange}
+                                />
+                                <span style={{ fontSize: '0.8em', opacity: 0.7 }}>{accessory.code}</span>
                                 {' '}
                                 {accessory.name}
-                            </label>
-                        </div>
-                    ))}
+                            </CheckboxLabel>
+                        ))}
+                    </CheckboxContainer>
                 </div>
-                <button type="submit">Criar Ordem de Serviço</button>
-            </form>
-        </div>
+                <Button type="submit">Criar Ordem de Serviço</Button>
+            </Form>
+        </Container>
     );
 };
 
