@@ -102,21 +102,67 @@ const Modal = styled.div<{ isOpen: boolean }>`
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    padding: 20vh 0px 0px 30vw;
 `;
 
-const ModalContent = styled.div`
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 80%;
+const ModalHeader = styled.div`
+    margin-top: 50px;
+    background: ${(props) => props.theme.colors.secondary};
+    text-align: center;
+    color: white;
+    border-radius: 8px 8px 0px 0px;
+    padding: 10px;
     max-width: 600px;
 `;
 
-const ModalHeader = styled.h3`
-    margin-top: 0;
+const ModalContent = styled.div`
+    padding: 20px;
+    magin-top: 50px;
+    background: white;
+    border-radius: 0px 0px 8px 8px;
+    max-width: 600px;
 `;
 
 const CloseButton = styled.button`
+    position: fixed;
+    margin-top: -30px;
+    margin-left: 500px;
+    background: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    float: right;
+    font-size: 16px;
+
+    &:hover {
+        background: #d32f2f;
+    }
+`;
+
+const ModalOrder = styled.div<{ isOpen: boolean }>`
+    display: ${(props) => (props.isOpen ? 'block' : 'none')};
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20vh 0px 0px 30vw;
+`;
+
+const ModalContentOrder = styled.div`
+    padding: 20px;
+    background: white;
+    border-radius: 0px 0px 8px 8px;
+    max-width: 600px;
+`;
+
+const CloseOrderButton = styled.button`
     background: #f44336;
     color: white;
     border: none;
@@ -145,12 +191,47 @@ const ConfirmButton = styled.button`
     }
 `;
 
+const WrapperButton = styled.div`
+    display: flex;
+`;
+
 const Input = styled.input`
     width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
+    padding: 10px;
+    margin-bottom: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+
+    &:focus {
+        border-color: ${(props) => props.theme.colors.primary};
+        outline: none;
+    }
+`;
+
+const Select = styled.select`
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+
+    &:focus {
+        border-color: ${(props) => props.theme.colors.primary};
+        outline: none;
+    }
+`;
+
+const Label = styled.label`
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
 `;
 
 const BrowserWorkOrders: React.FC = () => {
@@ -233,15 +314,6 @@ const BrowserWorkOrders: React.FC = () => {
         }
     };
 
-    const addRawMaterialInput = () => {
-        setRawMaterialInputs([...rawMaterialInputs, { name: '', width: '', length: '', amount: '', hoursSpent: '' }]);
-    };
-
-    const removeRawMaterialInput = (index: number) => {
-        const newRawMaterialInputs = rawMaterialInputs.filter((_, i) => i !== index);
-        setRawMaterialInputs(newRawMaterialInputs);
-    };
-
     return (
         <Container>
             <div>
@@ -305,10 +377,10 @@ const BrowserWorkOrders: React.FC = () => {
             </div>
 
             <Modal isOpen={isModalOpen}>
+                <ModalHeader>Detalhes da Ordem de Serviço</ModalHeader>
                 <ModalContent>
                     {selectedWorkOrder && (
                         <>
-                            <ModalHeader>Detalhes da Ordem de Serviço</ModalHeader>
                             <p><strong>Número:</strong> {selectedWorkOrder.number}</p>
                             <p><strong>Funcionário:</strong> {selectedWorkOrder.employeeName}</p>
                             <p><strong>Atividade:</strong> {selectedWorkOrder.activityName}</p>
@@ -323,48 +395,48 @@ const BrowserWorkOrders: React.FC = () => {
                 </ModalContent>
             </Modal>
 
-            <Modal isOpen={isConfirmModalOpen}>
-                <ModalContent>
+            <ModalOrder isOpen={isConfirmModalOpen}>
+                <ModalHeader style={{ marginTop: '-30px' }} >Fechar Ordem de Serviço</ModalHeader>
+                <ModalContentOrder>
                     {selectedWorkOrder && (
                         <>
-                            <ModalHeader>Fechar Ordem de Serviço</ModalHeader>
                             {rawMaterialInputs.map((input, index) => (
-                                <div key={index}>
-                                    <label>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }} key={index}>
+                                    <Label>
                                         Matéria-Prima:
-                                        <select value={input.name} onChange={(e) => handleRawMaterialSelect(index, e.target.value)}>
-                                            <option value="">Selecione</option>
-                                            {rawMaterials.map(material => (
-                                                <option key={material.id} value={material.name}>{material.name}</option>
-                                            ))}
-                                        </select>
-                                    </label>
-                                    <label>
+                                    </Label>
+                                    <Select value={input.name} onChange={(e) => handleRawMaterialSelect(index, e.target.value)}>
+                                        <option value="">Selecione</option>
+                                        {rawMaterials.map(material => (
+                                            <option key={material.id} value={material.name}>{material.name}</option>
+                                        ))}
+                                    </Select>
+                                    <Label>
                                         Largura:
-                                        <Input type="text" value={input.width} readOnly />
-                                    </label>
-                                    <label>
+                                    </Label>
+                                    <Input type="text" value={input.width} readOnly />
+                                    <Label>
                                         Comprimento:
-                                        <Input type="text" value={input.length} readOnly />
-                                    </label>
-                                    <label>
+                                    </Label>
+                                    <Input type="text" value={input.length} readOnly />
+                                    <Label>
                                         Quantidade:
-                                        <Input type="number" value={input.amount} onChange={(e) => handleRawMaterialChange(index, 'amount', e.target.value)} />
-                                    </label>
-                                    <label>
+                                    </Label>
+                                    <Input type="number" value={input.amount} onChange={(e) => handleRawMaterialChange(index, 'amount', e.target.value)} />
+                                    <Label>
                                         Horas Gastas:
-                                        <Input type="number" value={input.hoursSpent} onChange={(e) => handleRawMaterialChange(index, 'hoursSpent', e.target.value)} />
-                                    </label>
-                                    <button onClick={() => removeRawMaterialInput(index)}>Remover</button>
+                                    </Label>
+                                    <Input type="number" value={input.hoursSpent} onChange={(e) => handleRawMaterialChange(index, 'hoursSpent', e.target.value)} />
                                 </div>
                             ))}
-                            <button onClick={addRawMaterialInput}>Adicionar Matéria-Prima</button>
-                            <ConfirmButton onClick={handleConfirmClose}>Confirmar</ConfirmButton>
-                            <CloseButton onClick={handleCancelClose}>Cancelar</CloseButton>
+                            <WrapperButton>
+                                <ConfirmButton onClick={handleConfirmClose}>Confirmar</ConfirmButton>
+                                <CloseOrderButton onClick={handleCancelClose}>Cancelar</CloseOrderButton>
+                            </WrapperButton>
                         </>
                     )}
-                </ModalContent>
-            </Modal>
+                </ModalContentOrder>
+            </ModalOrder>
         </Container>
     );
 };
